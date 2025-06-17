@@ -1,0 +1,125 @@
+
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        margin: 0;
+        padding: 2rem;
+    }
+
+    header {
+        background-color: #2c3e50;
+        padding: 1rem;
+        color: white;
+        margin-bottom: 2rem;
+        ul {
+        
+        	li {
+        		color: white;
+        		a {
+        			color: white;
+        			text-decoration: none;
+        		}
+        	
+        	}
+        }
+    }
+
+
+
+    h1, h2, h3 {
+        color: #34495e;
+    }
+
+    ul {
+        padding: 0;
+        list-style: none;
+    }
+
+
+	.formation {
+		display: flex;
+		align-items: center;
+		margin-top: 10px;
+		form {
+			margin-left: 20px;
+		}
+	}
+	
+	.filters {
+		display: flex;
+		justify-content: space-evenly;
+		align-items: center;
+		button {
+			height: 50px;
+		}
+	}
+
+    .actions {
+        background-color: white;
+        margin: 0.5rem 0;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        a {
+        	color: #34495e;
+        	font-weight: 700;
+        	text-decoration: none;
+        }
+    }
+    
+    .loginForm {
+    	display: flex;
+    	button {
+    		margin-left: 20px;
+    	}
+    }
+    
+    .addForm {
+    	display: flex;
+    	align-items: center;
+    	justify-content: space-between;
+    }
+
+    li > div {
+        flex-grow: 1;
+    }
+
+    form {
+        margin: 0;
+    }
+
+    button {
+        background-color: #2980b9;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #3498db;
+    }
+
+    fieldset {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-top: 2rem;
+    }
+
+    legend {
+        font-weight: bold;
+    }
+
+    input[type="text"] {
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-right: 1rem;
+    }
+
