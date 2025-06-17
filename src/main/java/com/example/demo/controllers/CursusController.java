@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +21,8 @@ import com.example.demo.repositories.UserRepository;
 
 @Controller
 public class CursusController {
-
+	@Autowired
+	private MongoTemplate mongoTemplate;
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired 
@@ -31,6 +34,11 @@ public class CursusController {
 		model.addAttribute("user", userRepository.findByUsername(username));
 		model.addAttribute("listeFormations", userRepository.findByUsername(username).getFormations());
 		model.addAttribute("today", LocalDate.now());
+		Document stat = new Document("nom", userRepository.findByUsername(username).getLastname())
+				.append("prenom", userRepository.findByUsername(username).getFirstname())
+				.append("consultation", "cursus")
+				.append("date", LocalDate.now());
+		System.out.println(mongoTemplate.insert(stat, "statistiques"));
 		return "cursus";
 	}
 	
@@ -44,6 +52,11 @@ public class CursusController {
 			user.getFormations().add(formation);
 			userRepository.save(user);
 		}
+		Document stat = new Document("nom", userRepository.findByUsername(username).getLastname())
+				.append("prenom", userRepository.findByUsername(username).getFirstname())
+				.append("inscription", formation)
+				.append("date", LocalDate.now());
+		System.out.println(mongoTemplate.insert(stat, "statistiques"));
 		return "redirect:formations";
 	}
 	
@@ -57,6 +70,11 @@ public class CursusController {
 		model.addAttribute("user", userRepository.findByUsername(username));
 		model.addAttribute("today", today);
 		model.addAttribute("listeFormations", formationsTerminees);
+		Document stat = new Document("nom", userRepository.findByUsername(username).getLastname())
+				.append("prenom", userRepository.findByUsername(username).getFirstname())
+				.append("consultation", "cursus passé")
+				.append("date", LocalDate.now());
+		System.out.println(mongoTemplate.insert(stat, "statistiques"));
 		return "cursus";
 	}
 	
@@ -71,6 +89,11 @@ public class CursusController {
 		model.addAttribute("user", userRepository.findByUsername(username));
 		model.addAttribute("today", today);
 		model.addAttribute("listeFormations", formationsEnCours);
+		Document stat = new Document("nom", userRepository.findByUsername(username).getLastname())
+				.append("prenom", userRepository.findByUsername(username).getFirstname())
+				.append("consultation", "cursus en cours")
+				.append("date", LocalDate.now());
+		System.out.println(mongoTemplate.insert(stat, "statistiques"));
 		return "cursus";
 	}
 	
@@ -84,6 +107,11 @@ public class CursusController {
 		model.addAttribute("user", userRepository.findByUsername(username));
 		model.addAttribute("today", today);
 		model.addAttribute("listeFormations", formationsAVenir);
+		Document stat = new Document("nom", userRepository.findByUsername(username).getLastname())
+				.append("prenom", userRepository.findByUsername(username).getFirstname())
+				.append("consultation", "cursus à venir")
+				.append("date", LocalDate.now());
+		System.out.println(mongoTemplate.insert(stat, "statistiques"));
 		return "cursus";
 	}
 	
