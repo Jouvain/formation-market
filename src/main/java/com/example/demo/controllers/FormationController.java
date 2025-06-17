@@ -2,8 +2,10 @@ package com.example.demo.controllers;
 
 import java.time.LocalDate;
 
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,9 +20,13 @@ import com.example.demo.repositories.FormationRepository;
 import com.example.demo.repositories.UserRepository;
 
 import jakarta.validation.Valid;
+import org.bson.Document;
+
 
 @Controller
 public class FormationController {
+	@Autowired
+	private MongoTemplate mongoTemplate;
 	@Autowired
 	private FormationRepository formationRepository;
 	@Autowired
@@ -32,6 +38,11 @@ public class FormationController {
 		model.addAttribute("user", userRepository.findByUsername(username));
 		model.addAttribute("listeFormations", formationRepository.findAll());
 		model.addAttribute("today", LocalDate.now());
+		Document stat = new Document("nom", userRepository.findByUsername(username).getLastname())
+				.append("prenom", userRepository.findByUsername(username).getFirstname())
+				.append("consultation", "formations")
+				.append("date", LocalDate.now());
+		System.out.println(mongoTemplate.insert(stat, "statistiques"));
 		return "formations";
 	}
 
@@ -56,6 +67,11 @@ public class FormationController {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		model.addAttribute("user", userRepository.findByUsername(username));
 		model.addAttribute("today", LocalDate.now());
+		Document stat = new Document("nom", userRepository.findByUsername(username).getLastname())
+				.append("prenom", userRepository.findByUsername(username).getFirstname())
+				.append("tri", "par nom")
+				.append("date", LocalDate.now());
+		System.out.println(mongoTemplate.insert(stat, "statistiques"));
 		return "formations";
 	}
 
@@ -65,6 +81,11 @@ public class FormationController {
 		model.addAttribute("user", userRepository.findByUsername(username));
 		model.addAttribute("today", LocalDate.now());
 		model.addAttribute("listeFormations", formationRepository.findAll(Sort.by("dateDebut").descending()));
+		Document stat = new Document("nom", userRepository.findByUsername(username).getLastname())
+				.append("prenom", userRepository.findByUsername(username).getFirstname())
+				.append("tri", "par date")
+				.append("date", LocalDate.now());
+		System.out.println(mongoTemplate.insert(stat, "statistiques"));
 		return "formations";
 	}
 
@@ -74,6 +95,11 @@ public class FormationController {
 		model.addAttribute("user", userRepository.findByUsername(username));
 		model.addAttribute("today", LocalDate.now());
 		model.addAttribute("listeFormations", formationRepository.findByNomContaining(nom));
+		Document stat = new Document("nom", userRepository.findByUsername(username).getLastname())
+				.append("prenom", userRepository.findByUsername(username).getFirstname())
+				.append("recherche", nom)
+				.append("date", LocalDate.now());
+		System.out.println(mongoTemplate.insert(stat, "statistiques"));
 		return "formations";
 	}
 
